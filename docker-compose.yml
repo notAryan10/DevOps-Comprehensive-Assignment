@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: mongo_container
+    restart: always
+    volumes:
+      - mongo_data:/data/db
+
+  app:
+    build: .
+    container_name: app_container
+    ports:
+      - "80:5000"
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URI: mongodb://mongo:27017/mydb
+
+volumes:
+  mongo_data:
